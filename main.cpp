@@ -5,7 +5,6 @@
 #include "cursor.h"
 #include "gameengine.h"
 
-int cursor = 1;
 
 int main(){
   //test block
@@ -34,7 +33,9 @@ int main(){
   
   init_pair(5, COLOR_WHITE, COLOR_BLUE);
 
-  TextRenderer r(win, board);
+  std::array<int,4> color_pairs= {1,2,3,4};
+
+  TextRenderer r(win, board, SQ_SIZE, color_pairs);
   r.blinkingCursor(true);
 
   Cursor cursor(board);
@@ -44,10 +45,10 @@ int main(){
   int ch = 0;
   int totalSize = 50;
   while(flag){
-    r.drawBoard(board->getSquares(), SQ_SIZE, 1, 2);
-    r.drawPieces(board->getPieces(),SQ_SIZE, 1, 2, 3,4);
-    r.drawCursor(cursor, SQ_SIZE, 1, 2);
-    r.drawPieceMoves(cursor.getPiece(), gameEngine.getValidPieceMoves(cursor.getPiece()), SQ_SIZE, 1, 2, 3, 4);
+    r.drawBoard(board->getSquares());
+    r.drawPieces(board->getPieces());
+    r.drawCursor(cursor);
+    r.drawPieceMoves(cursor.getPiece(), gameEngine.getValidPieceMoves(cursor.getPiece()));
 
     ch = wgetch(win);
     switch(ch){
@@ -91,14 +92,11 @@ int main(){
             cursor.setPiece(nullptr);
             r.toggleBlinkingCursor();
           }
-          //if the cursor position matches an valid move for its selected piece, 
-          //it moves the piece.
           for (PieceMove *move : gameEngine.getValidPieceMoves(cursor.getPiece())){
             if (cursor.getPos() == gameEngine.getPieceFuturePos(cursor.getPiece(), move)){
               gameEngine.movePiece(cursor.getPiece(), move);
               cursor.setPiece(nullptr);
-              r.toggleBlinkingCursor();
-              break;
+             r.toggleBlinkingCursor();
             }
           }
         }
@@ -125,8 +123,6 @@ int main(){
   
   return 0;
 }
-
-
 
 
 

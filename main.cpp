@@ -47,9 +47,6 @@ int main(){
 
   while(flag){
     r.drawBoard(board->getSquares());
-    for  (Piece *p : board->getPieces()){
-      PiecesInBoard.push_back(p->getName());
-    }
     r.drawPieces(board->getPieces());
     r.drawCursor(cursor);
     r.drawPieceMoves(cursor.getPiece(), gameEngine.getValidPieceMoves(cursor.getPiece()));
@@ -101,6 +98,7 @@ int main(){
               gameEngine.movePiece(cursor.getPiece(), move);
               cursor.setPiece(nullptr);
               r.toggleBlinkingCursor();
+              break;
             }
           }
         }
@@ -120,10 +118,6 @@ int main(){
   wrefresh(win);
   endwin(); 
   std::cout << gameEngine.toPrint.size() << "b" << std::endl;
-  for (auto& p : gameEngine.toPrint){
-    std::cout << p[0] << ", " << p[1] << std::endl;
-  }
-  
   return 0;
 }
 

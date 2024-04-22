@@ -183,7 +183,8 @@ void GameEngine::movePiece(Piece *p, PieceMove *move){
      ){
     board->removePiece(board->getPiece(board->getSquare(getPieceFuturePos(p,move))));
   }
-  p->setSquare(board->getSquare(getPieceFuturePos(p, move)));
   p->setCurrentPos(getPieceFuturePos(p, move));
+  p->setSquare(board->getSquare(p->getCurrentPos()));
+
 }
 

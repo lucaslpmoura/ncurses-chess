@@ -56,7 +56,7 @@ Pawn::Pawn(bool desiredColor, Square *desiredSquare) : Piece(desiredColor, desir
 
       }else{
         moves = {new PieceMove(PAWNMOVE, {-1,0}),
-                   new PieceMove(PAWNFIRSTMOVE, {-2,0}),
+                  new PieceMove(PAWNFIRSTMOVE, {-2,0}),
                  new PieceMove(PAWNCAPTURE, {-1,-1}),
                  new PieceMove(PAWNCAPTURE, {-1, 1})};
       }
@@ -65,13 +65,27 @@ Pawn::Pawn(bool desiredColor, Square *desiredSquare) : Piece(desiredColor, desir
 Knight::Knight(bool desiredColor, std::array<int,2> pos) : Piece(desiredColor, pos){
       name = "Knight";
       symbol = 'n';
-      moves = {new PieceMove(KNIGHTMOVE, {1, 2})};
+      moves = {new PieceMove(KNIGHTMOVE, {1, 2}),
+               new PieceMove(KNIGHTMOVE, {1, -2}),
+               new PieceMove(KNIGHTMOVE, {2, 1}),
+               new PieceMove(KNIGHTMOVE, {2, -1}),
+               new PieceMove(KNIGHTMOVE, {-1, 2}),
+               new PieceMove(KNIGHTMOVE, {-1, -2}),
+               new PieceMove(KNIGHTMOVE, {-2, 1}),
+               new PieceMove(KNIGHTMOVE, {-2, -1})};
 }
 
 Knight::Knight(bool desiredColor, Square *desiredSquare) : Piece(desiredColor, desiredSquare){
       name = "Knight";
       symbol = 'n';
-      moves = {new PieceMove(KNIGHTMOVE, {1,2})};
+      moves = {new PieceMove(KNIGHTMOVE, {1, 2}),
+               new PieceMove(KNIGHTMOVE, {1, -2}),
+               new PieceMove(KNIGHTMOVE, {2, 1}),
+               new PieceMove(KNIGHTMOVE, {2, -1}),
+               new PieceMove(KNIGHTMOVE, {-1, 2}),
+               new PieceMove(KNIGHTMOVE, {-1, -2}),
+               new PieceMove(KNIGHTMOVE, {-2, 1}),
+               new PieceMove(KNIGHTMOVE, {-2, -1})};
 }
 
 Rook::Rook(bool desiredColor, std::array<int,2> pos) : Piece(desiredColor, pos){

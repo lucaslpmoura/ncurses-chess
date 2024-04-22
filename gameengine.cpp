@@ -11,6 +11,19 @@ PieceNames GameEngine::getPieceName(Piece *p){
   if(name == "King") {return KING;}
 }
 
+bool GameEngine::handleOutOfBounds(Piece *p, PieceMove *pm){
+  std::array<int,2> pieceFuturePos = getPieceFuturePos(p, pm);
+  if(
+      (pieceFuturePos[0] > 7) ||
+      (pieceFuturePos[0] < 0) ||
+      (pieceFuturePos[1] > 7) ||
+      (pieceFuturePos[1] < 0)
+      ){return false;}
+
+  return true;
+}
+
+
 bool GameEngine::handlePieceInFuturePos(Piece *p, std::array<int,2> pieceFuturePos){
   for (Piece *boardPiece : board->getPieces()){
     if((boardPiece->getCurrentPos() == pieceFuturePos) && !(boardPiece == p)){
@@ -107,11 +120,13 @@ std::vector<PieceMove*> GameEngine::getValidPawnMoves(Pawn *p){
     switch(pm->getMoveType()){
       case PAWNMOVE:
         if(
+            (handleOutOfBounds(p, pm)) &&
             (handlePieceInFuturePos(p, pm))
         ){validMoves.push_back(pm);}
         break;
       case PAWNFIRSTMOVE:
         if(
+            (handleOutOfBounds(p,pm)) &&
             (handlePieceInFuturePos(p,pm)) &&
             (handlePieceInTheWay(p,pm)) &&
             (p->getCurrentPos() == p->getOriginalPos())
@@ -119,10 +134,29 @@ std::vector<PieceMove*> GameEngine::getValidPawnMoves(Pawn *p){
         break;
       case PAWNCAPTURE:
         if(
+            (handleOutOfBounds(p,pm)) && 
             (!handleEnemyPieceInFuturePos(p,pm))
           ){validMoves.push_back(pm);}
     } 
   } 
+  return validMoves;
+}
+
+std::vector<PieceMove*> GameEngine::getValidKnightMoves(Knight *n){
+  std::vector<PieceMove*> validMoves;
+  bool knight_color = n->getColor();
+  for (PieceMove *pm : n->getMoves()){
+    switch(pm->getMoveType()){
+      case KNIGHTMOVE:
+        if(
+            (handleOutOfBounds(n, pm)) &&
+            (handlePieceInFuturePos(n, pm))
+          ){validMoves.push_back(pm);}
+        break;
+      default:
+        return {};
+    }
+  }
   return validMoves;
 }
 
@@ -136,6 +170,8 @@ std::vector<PieceMove*> GameEngine::getValidPieceMoves(Piece *p){
   switch(getPieceName(p)){
     case PAWN:
       return getValidPawnMoves(dynamic_cast<Pawn*>(p));
+    case KNIGHT:
+      return getValidKnightMoves(dynamic_cast<Knight*>(p));
   }
 }
 

@@ -43,9 +43,13 @@ int main(){
 
   bool flag = true;
   int ch = 0;
-  int totalSize = 50;
+  std::vector<std::string> PiecesInBoard;
+
   while(flag){
     r.drawBoard(board->getSquares());
+    for  (Piece *p : board->getPieces()){
+      PiecesInBoard.push_back(p->getName());
+    }
     r.drawPieces(board->getPieces());
     r.drawCursor(cursor);
     r.drawPieceMoves(cursor.getPiece(), gameEngine.getValidPieceMoves(cursor.getPiece()));
@@ -96,7 +100,7 @@ int main(){
             if (cursor.getPos() == gameEngine.getPieceFuturePos(cursor.getPiece(), move)){
               gameEngine.movePiece(cursor.getPiece(), move);
               cursor.setPiece(nullptr);
-             r.toggleBlinkingCursor();
+              r.toggleBlinkingCursor();
             }
           }
         }
@@ -115,7 +119,6 @@ int main(){
   std::cout<<"Reached end of window." << std::endl;
   wrefresh(win);
   endwin(); 
-  std::cout << totalSize << std::endl;
   std::cout << gameEngine.toPrint.size() << "b" << std::endl;
   for (auto& p : gameEngine.toPrint){
     std::cout << p[0] << ", " << p[1] << std::endl;

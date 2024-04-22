@@ -116,18 +116,20 @@ void TextRenderer::drawPieceMove(Piece *piece, PieceMove *pieceMove, int color_p
 //3 & 4 - blakc pieces, white & black squares
 void TextRenderer::drawPieces(std::vector<Piece*> pieces){ 
   for(Piece *p : pieces){
-    int selected_color_pair = 1;
-    switch (p->getSquare()->getColor()){
-      case 0:
-        if(p->getColor() == 0){selected_color_pair = color_pairs[0];}
-        else{selected_color_pair = color_pairs[2];}
-        break;
-      case 1:
-        if(p->getColor() == 0) {selected_color_pair = color_pairs[1];}
-        else{selected_color_pair = color_pairs[3];}
-        break;
-    } 
-    drawPiece(p, selected_color_pair);
+    if(p != nullptr){
+      int selected_color_pair = 1;
+      switch (p->getSquare()->getColor()){
+        case 0:
+          if(p->getColor() == 0){selected_color_pair = color_pairs[0];}
+          else{selected_color_pair = color_pairs[2];}
+          break;
+        case 1:
+          if(p->getColor() == 0) {selected_color_pair = color_pairs[1];}
+          else{selected_color_pair = color_pairs[3];}
+          break;
+      } 
+      drawPiece(p, selected_color_pair);
+    }
   }   
   move(0, 0);
 }

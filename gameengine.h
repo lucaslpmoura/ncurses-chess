@@ -18,9 +18,12 @@ class GameEngine{
     Board *board;
     
     PieceNames getPieceName(Piece *p);
+
     std::vector<PieceMove*> getValidPawnMoves(Pawn *p);
+    std::vector<PieceMove*> getValidKnightMoves(Knight *k);
     //these functions return true if there is no piece 
     //interfering the movement, false otherwise
+    bool handleOutOfBounds(Piece *p, PieceMove *pm);
     bool handlePieceInFuturePos(Piece *p, std::array<int,2> pieceFuturePos);
     bool handlePieceInFuturePos(Piece *p, PieceMove *pm);
     bool handleEnemyPieceInFuturePos(Piece *p, std::array<int,2> pieceFuturePos);

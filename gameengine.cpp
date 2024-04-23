@@ -97,9 +97,14 @@ bool GameEngine::handlePieceInTheWay(Piece *p, PieceMove *pm){
         }
         break;
       
+      //TODO: diagonal movement
       case true:
         break;
-    } 
+    }
+
+    //removes pieceFuturePos from the transientPositions vector so that moves that capture pieces 
+    //are only blocked by the first enemy piece that it finds
+    pieceTransientPositions.erase(std::remove(pieceTransientPositions.begin(), pieceTransientPositions.end(), getPieceFuturePos(p, pm)), pieceTransientPositions.end());
     
     if(pieceTransientPositions.size() == 0){
       return true;
@@ -153,6 +158,39 @@ std::vector<PieceMove*> GameEngine::getValidKnightMoves(Knight *n){
             (handlePieceInFuturePos(n, pm))
           ){validMoves.push_back(pm);}
         break;
+      case KNIGHTCAPTURE:
+        if(
+            (handleOutOfBounds(n, pm)) &&
+            (!handleEnemyPieceInFuturePos(n, pm))
+          ){validMoves.push_back(pm);}
+        break;
+      default:
+        return {};
+    }
+  }
+  return validMoves;
+}
+
+
+std::vector<PieceMove*> GameEngine::getValidRookMoves(Rook *r){
+  std::vector<PieceMove*> validMoves;
+  bool rook_color = r->getColor();
+  for (PieceMove *pm : r->getMoves()){
+    switch(pm->getMoveType()){
+      case MOVE:
+        if(
+            (handleOutOfBounds(r, pm)) &&
+            (handlePieceInFuturePos(r, pm)) &&
+            (handlePieceInTheWay(r, pm))
+          ){validMoves.push_back(pm);}
+        break;
+      case CAPTURE:
+        if(
+            (handleOutOfBounds(r, pm)) &&
+            (handlePieceInTheWay(r,pm)) &&
+            (!handleEnemyPieceInFuturePos(r, pm))
+          ){validMoves.push_back(pm);}
+        break;
       default:
         return {};
     }
@@ -172,6 +210,10 @@ std::vector<PieceMove*> GameEngine::getValidPieceMoves(Piece *p){
       return getValidPawnMoves(dynamic_cast<Pawn*>(p));
     case KNIGHT:
       return getValidKnightMoves(dynamic_cast<Knight*>(p));
+    case ROOK:
+      return getValidRookMoves(dynamic_cast<Rook*>(p));
+    default:
+      return {};
   }
 }
 

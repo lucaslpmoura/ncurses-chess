@@ -20,7 +20,8 @@ class GameEngine{
     PieceNames getPieceName(Piece *p);
 
     std::vector<PieceMove*> getValidPawnMoves(Pawn *p);
-    std::vector<PieceMove*> getValidKnightMoves(Knight *k);
+    std::vector<PieceMove*> getValidKnightMoves(Knight *n);
+    std::vector<PieceMove*> getValidRookMoves(Rook *r);
     //these functions return true if there is no piece 
     //interfering the movement, false otherwise
     bool handleOutOfBounds(Piece *p, PieceMove *pm);

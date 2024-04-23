@@ -37,7 +37,9 @@ Pawn::Pawn(bool desiredColor, std::array<int,2> pos): Piece(desiredColor, pos){
 			symbol = 'p';
       if (desiredColor == true){
         moves = {new PieceMove(PAWNMOVE, {1,0}),
-                 new PieceMove(PAWNFIRSTMOVE, {2,0})};
+                 new PieceMove(PAWNFIRSTMOVE, {2,0}),
+                 new PieceMove(PAWNCAPTURE, {1, -1}),
+                 new PieceMove(PAWNCAPTURE, {1, 1})};
 
       }else{
         moves = {new PieceMove(PAWNMOVE, {-1,0}),
@@ -52,11 +54,13 @@ Pawn::Pawn(bool desiredColor, Square *desiredSquare) : Piece(desiredColor, desir
       symbol = 'p';
       if (desiredColor == true){
         moves = {new PieceMove(PAWNMOVE, {1,0}),
-                 new PieceMove(PAWNFIRSTMOVE, {2,0})};
+                 new PieceMove(PAWNFIRSTMOVE, {2,0}),
+                 new PieceMove(PAWNCAPTURE, {1, -1}),
+                 new PieceMove(PAWNCAPTURE, {1, 1})};
 
       }else{
         moves = {new PieceMove(PAWNMOVE, {-1,0}),
-                  new PieceMove(PAWNFIRSTMOVE, {-2,0}),
+                 new PieceMove(PAWNFIRSTMOVE, {-2,0}),
                  new PieceMove(PAWNCAPTURE, {-1,-1}),
                  new PieceMove(PAWNCAPTURE, {-1, 1})};
       }
@@ -72,7 +76,15 @@ Knight::Knight(bool desiredColor, std::array<int,2> pos) : Piece(desiredColor, p
                new PieceMove(KNIGHTMOVE, {-1, 2}),
                new PieceMove(KNIGHTMOVE, {-1, -2}),
                new PieceMove(KNIGHTMOVE, {-2, 1}),
-               new PieceMove(KNIGHTMOVE, {-2, -1})};
+               new PieceMove(KNIGHTMOVE, {-2, -1}),
+               new PieceMove(KNIGHTCAPTURE, {1, 2}),
+               new PieceMove(KNIGHTCAPTURE, {1, -2}),
+               new PieceMove(KNIGHTCAPTURE, {2, 1}),
+               new PieceMove(KNIGHTCAPTURE, {2, -1}),
+               new PieceMove(KNIGHTCAPTURE, {-1, 2}),
+               new PieceMove(KNIGHTCAPTURE, {-1, -2}),
+               new PieceMove(KNIGHTCAPTURE, {-2, 1}),
+               new PieceMove(KNIGHTCAPTURE, {-2, -1})};
 }
 
 Knight::Knight(bool desiredColor, Square *desiredSquare) : Piece(desiredColor, desiredSquare){
@@ -85,19 +97,45 @@ Knight::Knight(bool desiredColor, Square *desiredSquare) : Piece(desiredColor, d
                new PieceMove(KNIGHTMOVE, {-1, 2}),
                new PieceMove(KNIGHTMOVE, {-1, -2}),
                new PieceMove(KNIGHTMOVE, {-2, 1}),
-               new PieceMove(KNIGHTMOVE, {-2, -1})};
+               new PieceMove(KNIGHTMOVE, {-2, -1}),
+               new PieceMove(KNIGHTCAPTURE, {1, 2}),
+               new PieceMove(KNIGHTCAPTURE, {1, -2}),
+               new PieceMove(KNIGHTCAPTURE, {2, 1}),
+               new PieceMove(KNIGHTCAPTURE, {2, -1}),
+               new PieceMove(KNIGHTCAPTURE, {-1, 2}),
+               new PieceMove(KNIGHTCAPTURE, {-1, -2}),
+               new PieceMove(KNIGHTCAPTURE, {-2, 1}),
+               new PieceMove(KNIGHTCAPTURE, {-2, -1})};
 }
 
 Rook::Rook(bool desiredColor, std::array<int,2> pos) : Piece(desiredColor, pos){
       name = "Rook";
       symbol = 'r';
-      moves = {new PieceMove(MOVE, {1, 0})};
+      for (int i = 1; i < 8; i++){
+        moves.push_back(new PieceMove(MOVE, {0,i}));
+        moves.push_back(new PieceMove(MOVE, {i,0}));
+        moves.push_back(new PieceMove(MOVE, {0,-i}));
+        moves.push_back(new PieceMove(MOVE, {-i,0}));
+        moves.push_back(new PieceMove(CAPTURE, {0,i}));
+        moves.push_back(new PieceMove(CAPTURE, {i,0}));
+        moves.push_back(new PieceMove(CAPTURE, {0,-i}));
+        moves.push_back(new PieceMove(CAPTURE, {-i,0}));
+      }
 };
 
 Rook::Rook(bool desiredColor, Square *desiredSquare) : Piece(desiredColor, desiredSquare){
       name = "Rook";
       symbol = 'r';
-      moves = {new PieceMove(MOVE, {1,0})};
+      for (int i = 1; i < 8; i++){
+        moves.push_back(new PieceMove(MOVE, {0,i}));
+        moves.push_back(new PieceMove(MOVE, {i,0}));
+        moves.push_back(new PieceMove(MOVE, {0,-i}));
+        moves.push_back(new PieceMove(MOVE, {-i,0}));
+        moves.push_back(new PieceMove(CAPTURE, {0,i}));
+        moves.push_back(new PieceMove(CAPTURE, {i,0}));
+        moves.push_back(new PieceMove(CAPTURE, {0,-i}));
+        moves.push_back(new PieceMove(CAPTURE, {-i,0}));
+      }
 }
 
 Bishop::Bishop(bool desiredColor, std::array<int,2> pos) : Piece(desiredColor, pos){

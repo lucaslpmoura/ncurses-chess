@@ -69,7 +69,7 @@ bool GameEngine::handlePieceInTheWay(Piece *p, PieceMove *pm){
     int pmY  = pm->getPieceDisplacement()[0];
     int pmX = pm->getPieceDisplacement()[1];
 
-    switch(pmY == pmX){
+    switch(abs(pmY) == abs(pmX)){
       case false:
 
         //left-right movement
@@ -98,7 +98,32 @@ bool GameEngine::handlePieceInTheWay(Piece *p, PieceMove *pm){
         break;
       
       //TODO: diagonal movement
+      //cases:
+      //x > 0, y > 0;
+      //x < 0, y > 0;
+      //x > 0, y < 0;
+      //x < 0, y < 0;
       case true:
+        if((pmX > 0) && (pmY > 0)){
+          for(int i = pmX; i > 0; i--){
+            pieceTransientPositions.push_back({pieceYPos + i, pieceXPos+ i});
+          }
+        }
+        if((pmX < 0) && (pmY > 0)){
+          for(int i = pmX; i < 0; i++){
+            pieceTransientPositions.push_back({pieceYPos - i, pieceXPos + i});
+          }
+        }
+        if((pmX > 0) && (pmY < 0)){
+          for(int i = pmX; i > 0; i--){
+            pieceTransientPositions.push_back({pieceYPos - i, pieceXPos + i});
+          }
+        }
+        if((pmX < 0) && (pmY < 0)){  
+          for(int i = pmX; i < 0; i++){
+            pieceTransientPositions.push_back({pieceYPos + i, pieceXPos+ i});
+          }
+        }
         break;
     }
 
@@ -198,6 +223,32 @@ std::vector<PieceMove*> GameEngine::getValidRookMoves(Rook *r){
   return validMoves;
 }
 
+std::vector<PieceMove*> GameEngine::getValidBishopMoves(Bishop *b){
+  std::vector<PieceMove*> validMoves;
+  bool bishop_color = b->getColor();
+  for (PieceMove *pm : b->getMoves()){
+    switch(pm->getMoveType()){
+      case MOVE:
+        if(
+            (handleOutOfBounds(b, pm)) &&
+            (handlePieceInFuturePos(b, pm)) &&
+            (handlePieceInTheWay(b, pm))
+          ){validMoves.push_back(pm);}
+        break;
+      case CAPTURE:
+        if(
+            (handleOutOfBounds(b, pm)) &&
+            (handlePieceInTheWay(b,pm)) &&
+            (!handleEnemyPieceInFuturePos(b, pm))
+          ){validMoves.push_back(pm);}
+        break;
+      default:
+        return {};
+    }
+  }
+  return validMoves;
+}
+
 std::array<int,2> GameEngine::getPieceFuturePos(Piece *p, PieceMove *move){
   return {(p->getCurrentPos()[0] + move->getPieceDisplacement()[0]),
           (p->getCurrentPos()[1] + move->getPieceDisplacement()[1])};
@@ -212,6 +263,8 @@ std::vector<PieceMove*> GameEngine::getValidPieceMoves(Piece *p){
       return getValidKnightMoves(dynamic_cast<Knight*>(p));
     case ROOK:
       return getValidRookMoves(dynamic_cast<Rook*>(p));
+    case BISHOP:
+      return getValidBishopMoves(dynamic_cast<Bishop*>(p));
     default:
       return {};
   }

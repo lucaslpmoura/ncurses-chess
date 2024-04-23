@@ -22,6 +22,8 @@ class GameEngine{
     std::vector<PieceMove*> getValidPawnMoves(Pawn *p);
     std::vector<PieceMove*> getValidKnightMoves(Knight *n);
     std::vector<PieceMove*> getValidRookMoves(Rook *r);
+    std::vector<PieceMove*> getValidBishopMoves(Bishop *b);
+
     //these functions return true if there is no piece 
     //interfering the movement, false otherwise
     bool handleOutOfBounds(Piece *p, PieceMove *pm);

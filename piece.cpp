@@ -141,13 +141,31 @@ Rook::Rook(bool desiredColor, Square *desiredSquare) : Piece(desiredColor, desir
 Bishop::Bishop(bool desiredColor, std::array<int,2> pos) : Piece(desiredColor, pos){
       name = "Bishop";
       symbol = 'b';
-      moves = {new PieceMove(MOVE, {1, 1})};
-};
+      for (int i = 1; i < 8; i++){
+        moves.push_back(new PieceMove(MOVE, {i,i}));
+        moves.push_back(new PieceMove(MOVE, {-i,i}));
+        moves.push_back(new PieceMove(MOVE, {i,-i}));
+        moves.push_back(new PieceMove(MOVE, {-i,-i}));
+        moves.push_back(new PieceMove(CAPTURE, {i,i}));
+        moves.push_back(new PieceMove(CAPTURE, {-i,i}));
+        moves.push_back(new PieceMove(CAPTURE, {i,-i}));
+        moves.push_back(new PieceMove(CAPTURE, {-i,-i}));
+      }
+}
 
 Bishop::Bishop(bool desiredColor, Square *desiredSquare) : Piece(desiredColor, desiredSquare){
       name = "Bishop";
       symbol = 'b';
-        moves = {new PieceMove(MOVE, {1,1})};
+      for (int i = 1; i < 8; i++){
+        moves.push_back(new PieceMove(MOVE, {i,i}));
+        moves.push_back(new PieceMove(MOVE, {-i,i}));
+        moves.push_back(new PieceMove(MOVE, {i,-i}));
+        moves.push_back(new PieceMove(MOVE, {-i,-i}));
+        moves.push_back(new PieceMove(CAPTURE, {i,i}));
+        moves.push_back(new PieceMove(CAPTURE, {-i,i}));
+        moves.push_back(new PieceMove(CAPTURE, {i,-i}));
+        moves.push_back(new PieceMove(CAPTURE, {-i,-i}));
+      }
 }
 
 Queen::Queen(bool desiredColor, std::array<int,2> pos) : Piece(desiredColor, pos){

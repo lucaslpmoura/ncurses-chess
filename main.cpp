@@ -107,17 +107,18 @@ int main(){
       }
 
 
-      
+      //quits game
       case KEY_F(1):
         flag = false;
         break;
     }
     wrefresh(win);
   }
-  std::cout<<"Reached end of window." << std::endl;
+ 
+  init_color(COLOR_BLACK, 0, 0, 0);
   wrefresh(win);
   endwin(); 
-  std::cout << gameEngine.toPrint.size() << "b" << std::endl;
+  std::cout<<"Reached end of window." << std::endl;
   return 0;
 }
 

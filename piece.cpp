@@ -31,6 +31,16 @@ inline bool Piece::operator==(const Piece& p){
   }
 }
 
+inline bool Piece::operator!=(const Piece& p){
+  if(
+      (name == p.name) &&
+      (currentPos == p.currentPos) 
+    ){return false;}
+  else{
+    return true;
+  }
+}
+
 
 Pawn::Pawn(bool desiredColor, std::array<int,2> pos): Piece(desiredColor, pos){
 			name = "Pawn";
@@ -171,13 +181,47 @@ Bishop::Bishop(bool desiredColor, Square *desiredSquare) : Piece(desiredColor, d
 Queen::Queen(bool desiredColor, std::array<int,2> pos) : Piece(desiredColor, pos){
       name = "Queen";
       symbol = 'q';
-      moves = {new PieceMove(MOVE, {2, 2})};
+      for (int i = 1; i < 8; i++){
+        moves.push_back(new PieceMove(MOVE, {i,i}));
+        moves.push_back(new PieceMove(MOVE, {-i,i}));
+        moves.push_back(new PieceMove(MOVE, {i,-i}));
+        moves.push_back(new PieceMove(MOVE, {-i,-i}));
+        moves.push_back(new PieceMove(CAPTURE, {i,i}));
+        moves.push_back(new PieceMove(CAPTURE, {-i,i}));
+        moves.push_back(new PieceMove(CAPTURE, {i,-i}));
+        moves.push_back(new PieceMove(CAPTURE, {-i,-i}));
+        moves.push_back(new PieceMove(MOVE, {0,i}));
+        moves.push_back(new PieceMove(MOVE, {i,0}));
+        moves.push_back(new PieceMove(MOVE, {0,-i}));
+        moves.push_back(new PieceMove(MOVE, {-i,0}));
+        moves.push_back(new PieceMove(CAPTURE, {0,i}));
+        moves.push_back(new PieceMove(CAPTURE, {i,0}));
+        moves.push_back(new PieceMove(CAPTURE, {0,-i}));
+        moves.push_back(new PieceMove(CAPTURE, {-i,0}));
+      }
 };
 
 Queen::Queen(bool desiredColor, Square *desiredSquare) : Piece(desiredColor, desiredSquare){
       name = "Queen";
       symbol = 'q';
-      moves = {new PieceMove(MOVE, {2,2})};
+      for (int i = 1; i < 8; i++){
+        moves.push_back(new PieceMove(MOVE, {i,i}));
+        moves.push_back(new PieceMove(MOVE, {-i,i}));
+        moves.push_back(new PieceMove(MOVE, {i,-i}));
+        moves.push_back(new PieceMove(MOVE, {-i,-i}));
+        moves.push_back(new PieceMove(CAPTURE, {i,i}));
+        moves.push_back(new PieceMove(CAPTURE, {-i,i}));
+        moves.push_back(new PieceMove(CAPTURE, {i,-i}));
+        moves.push_back(new PieceMove(CAPTURE, {-i,-i}));
+        moves.push_back(new PieceMove(MOVE, {0,i}));
+        moves.push_back(new PieceMove(MOVE, {i,0}));
+        moves.push_back(new PieceMove(MOVE, {0,-i}));
+        moves.push_back(new PieceMove(MOVE, {-i,0}));
+        moves.push_back(new PieceMove(CAPTURE, {0,i}));
+        moves.push_back(new PieceMove(CAPTURE, {i,0}));
+        moves.push_back(new PieceMove(CAPTURE, {0,-i}));
+        moves.push_back(new PieceMove(CAPTURE, {-i,0}));
+      }
 }
 
 King::King(bool desiredColor, std::array<int,2> pos) : Piece(desiredColor, pos){
@@ -189,5 +233,21 @@ King::King(bool desiredColor, std::array<int,2> pos) : Piece(desiredColor, pos){
 King::King(bool desiredColor, Square *desiredSquare) : Piece (desiredColor, desiredSquare){
       name = "King";
       symbol = 'k';
-      moves = {new PieceMove(MOVE, {0,2})};
+      moves.push_back(new PieceMove(MOVE, {1,1}));
+      moves.push_back(new PieceMove(MOVE, {-1,1}));
+      moves.push_back(new PieceMove(MOVE, {1,-1}));
+      moves.push_back(new PieceMove(MOVE, {-1,-1}));
+      moves.push_back(new PieceMove(CAPTURE, {1,1}));
+      moves.push_back(new PieceMove(CAPTURE, {-1,1}));
+      moves.push_back(new PieceMove(CAPTURE, {1,-1}));
+      moves.push_back(new PieceMove(CAPTURE, {-1,-1}));
+      moves.push_back(new PieceMove(MOVE, {0,1}));
+      moves.push_back(new PieceMove(MOVE, {1,0}));
+      moves.push_back(new PieceMove(MOVE, {0,-1}));
+      moves.push_back(new PieceMove(MOVE, {-1,0}));
+      moves.push_back(new PieceMove(CAPTURE, {0,1}));
+      moves.push_back(new PieceMove(CAPTURE, {1,0}));
+      moves.push_back(new PieceMove(CAPTURE, {0,-1}));
+      moves.push_back(new PieceMove(CAPTURE, {-1,0}));
+      
 }

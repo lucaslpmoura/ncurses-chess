@@ -23,7 +23,7 @@ bool GameEngine::handleOutOfBounds(Piece *p, PieceMove *pm){
   return true;
 }
 
-
+//checks to see if there is an other piece in the postion that the piece is trying to move
 bool GameEngine::handlePieceInFuturePos(Piece *p, std::array<int,2> pieceFuturePos){
   for (Piece *boardPiece : board->getPieces()){
     if((boardPiece->getCurrentPos() == pieceFuturePos) && !(boardPiece == p)){
@@ -33,6 +33,8 @@ bool GameEngine::handlePieceInFuturePos(Piece *p, std::array<int,2> pieceFutureP
   return true; 
 }
 
+
+//checks to see if there is an enemy piece in the postion that the piece is trying to move
 bool GameEngine::handleEnemyPieceInFuturePos(Piece *p, std::array<int,2> pieceFuturePos){
   for (Piece *boardPiece : board->getPieces()){
     if((boardPiece->getCurrentPos() == pieceFuturePos) && (boardPiece->getColor() == !p->getColor())){
@@ -97,7 +99,7 @@ bool GameEngine::handlePieceInTheWay(Piece *p, PieceMove *pm){
         }
         break;
       
-      //TODO: diagonal movement
+      //diagonal movement
       //cases:
       //x > 0, y > 0;
       //x < 0, y > 0;
@@ -143,6 +145,35 @@ bool GameEngine::handlePieceInTheWay(Piece *p, PieceMove *pm){
     return true;
 }
 
+
+//this fucntions checks every enemy piece to see if it has an capture movement
+//that lands on the same square as the king 
+bool GameEngine::handleCheckPosition(King *k, PieceMove *pm){
+  for(Piece* p : board->getPieces()){
+    if(p->getColor() != k->getColor()){
+      std::vector<PieceMove*> moves = getValidPieceMoves(p);
+      for(PieceMove* move : moves){
+        int type = move->getMoveType();
+        if(
+          (type == CAPTURE) ||
+          (type == PAWNCAPTURE) ||
+          (type == KNIGHTCAPTURE)
+        ){
+          if(getPieceFuturePos(k,pm) == getPieceFuturePos(p, move)){
+            return false;
+          }
+        }else{continue;}
+      }
+    }
+  }
+  return true;
+}
+
+
+//specfic functions for handling each type of piece valid moves
+//done separate for organization propouses
+//bishop, rook and queen could one function, but still
+
 std::vector<PieceMove*> GameEngine::getValidPawnMoves(Pawn *p){
   std::vector<PieceMove*> validMoves;
   bool pawn_color = p->getColor();
@@ -167,6 +198,12 @@ std::vector<PieceMove*> GameEngine::getValidPawnMoves(Pawn *p){
             (handleOutOfBounds(p,pm)) && 
             (!handleEnemyPieceInFuturePos(p,pm))
           ){validMoves.push_back(pm);}
+        break;
+      //TODO
+      case ENPASSANT:
+        break;
+      default:
+        return {};
     } 
   } 
   return validMoves;
@@ -223,6 +260,8 @@ std::vector<PieceMove*> GameEngine::getValidRookMoves(Rook *r){
   return validMoves;
 }
 
+
+
 std::vector<PieceMove*> GameEngine::getValidBishopMoves(Bishop *b){
   std::vector<PieceMove*> validMoves;
   bool bishop_color = b->getColor();
@@ -249,6 +288,61 @@ std::vector<PieceMove*> GameEngine::getValidBishopMoves(Bishop *b){
   return validMoves;
 }
 
+std::vector<PieceMove*> GameEngine::getValidQueenMoves(Queen *q){
+  std::vector<PieceMove*> validMoves;
+  bool queen_color = q->getColor();
+  for (PieceMove *pm : q->getMoves()){
+    switch(pm->getMoveType()){
+      case MOVE:
+        if(
+            (handleOutOfBounds(q, pm)) &&
+            (handlePieceInFuturePos(q, pm)) &&
+            (handlePieceInTheWay(q, pm))
+          ){validMoves.push_back(pm);}
+        break;
+      case CAPTURE:
+        if(
+            (handleOutOfBounds(q, pm)) &&
+            (handlePieceInTheWay(q,pm)) &&
+            (!handleEnemyPieceInFuturePos(q, pm))
+          ){validMoves.push_back(pm);}
+        break;
+      default:
+        return {};
+    }
+  }
+  return validMoves;
+}
+
+std::vector<PieceMove*> GameEngine::getValidKingMoves(King *k){
+  std::vector<PieceMove*> validMoves;
+  bool king_color = k->getColor();
+  for (PieceMove *pm : k->getMoves()){
+    switch(pm->getMoveType()){
+      //TODO: Implement king not being able to move to check positions
+      case MOVE:
+        if(
+            (handleOutOfBounds(k, pm)) &&
+            (handlePieceInFuturePos(k, pm)) &&
+            (handlePieceInTheWay(k, pm)) &&
+            (handleCheckPosition(k, pm))
+          ){validMoves.push_back(pm);}
+        break;
+      case CAPTURE:
+        if(
+            (handleOutOfBounds(k, pm)) &&
+            (handlePieceInTheWay(k,pm)) &&
+            (!handleEnemyPieceInFuturePos(k, pm)) &&
+            (handleCheckPosition(k, pm))
+          ){validMoves.push_back(pm);}
+        break;
+      default:
+        return {};
+    }
+  }
+  return validMoves;
+}
+
 std::array<int,2> GameEngine::getPieceFuturePos(Piece *p, PieceMove *move){
   return {(p->getCurrentPos()[0] + move->getPieceDisplacement()[0]),
           (p->getCurrentPos()[1] + move->getPieceDisplacement()[1])};
@@ -265,6 +359,10 @@ std::vector<PieceMove*> GameEngine::getValidPieceMoves(Piece *p){
       return getValidRookMoves(dynamic_cast<Rook*>(p));
     case BISHOP:
       return getValidBishopMoves(dynamic_cast<Bishop*>(p));
+    case QUEEN:
+      return getValidQueenMoves(dynamic_cast<Queen*>(p));
+    case KING:
+      return getValidKingMoves(dynamic_cast<King*>(p));
     default:
       return {};
   }

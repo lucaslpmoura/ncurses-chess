@@ -1,3 +1,6 @@
+//GameEngine: handles the game system, capturing and moving pieces etc.
+//Independent of visual interface.
+
 #ifndef GAMEENGINE_H
 #define GAMEENGINE_H
 
@@ -19,10 +22,7 @@ class GameEngine{
     
     PieceNames getPieceName(Piece *p);
 
-    std::vector<PieceMove*> getValidPawnMoves(Pawn *p);
-    std::vector<PieceMove*> getValidKnightMoves(Knight *n);
-    std::vector<PieceMove*> getValidRookMoves(Rook *r);
-    std::vector<PieceMove*> getValidBishopMoves(Bishop *b);
+    
 
     //these functions return true if there is no piece 
     //interfering the movement, false otherwise
@@ -32,6 +32,16 @@ class GameEngine{
     bool handleEnemyPieceInFuturePos(Piece *p, std::array<int,2> pieceFuturePos);
     bool handleEnemyPieceInFuturePos(Piece *p, PieceMove *pm);
     bool handlePieceInTheWay(Piece *p, PieceMove *pm);
+
+    //checks if moving the king would put him in a check position
+    bool handleCheckPosition(King *k, PieceMove *pm);
+
+    std::vector<PieceMove*> getValidPawnMoves(Pawn *p);
+    std::vector<PieceMove*> getValidKnightMoves(Knight *n);
+    std::vector<PieceMove*> getValidRookMoves(Rook *r);
+    std::vector<PieceMove*> getValidBishopMoves(Bishop *b);
+    std::vector<PieceMove*> getValidQueenMoves(Queen *q);
+    std::vector<PieceMove*> getValidKingMoves(King *k);
     
   public:
     

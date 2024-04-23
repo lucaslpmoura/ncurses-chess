@@ -33,6 +33,7 @@ class Piece{
 		virtual void f() = 0;
 
     inline bool operator==(const Piece& p);
+    inline bool operator!=(const Piece& p);
 
 		
 };

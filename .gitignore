@@ -1,0 +1,7 @@
+#igonres executable
+.exe
+.o
+.out
+
+#ignores log files
+.txt

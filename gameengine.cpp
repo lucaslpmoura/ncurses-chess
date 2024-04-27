@@ -331,7 +331,7 @@ std::vector<PieceMove*> GameEngine::getValidKingMoves(King *k){
       case CAPTURE:
         if(
             (handleOutOfBounds(k, pm)) &&
-            (handlePieceInTheWay(k,pm)) &&
+            (handlePieceInTheWay(k,pm)) &
             (!handleEnemyPieceInFuturePos(k, pm)) &&
             (handleCheckPosition(k, pm))
           ){validMoves.push_back(pm);}

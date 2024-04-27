@@ -149,20 +149,47 @@ bool GameEngine::handlePieceInTheWay(Piece *p, PieceMove *pm){
 //this fucntions checks every enemy piece to see if it has an capture movement
 //that lands on the same square as the king 
 bool GameEngine::handleCheckPosition(King *k, PieceMove *pm){
-  for(Piece* p : board->getPieces()){
-    if(p->getColor() != k->getColor()){
-      std::vector<PieceMove*> moves = getValidPieceMoves(p);
-      for(PieceMove* move : moves){
-        int type = move->getMoveType();
+  for(Piece *p : board->getPieces()){
+    //piece cant be a king: would lead to infinte loop
+    if((p->getColor() != k->getColor()) && (p->getName() != "King")){
+      //for checking the piece movements that would lead to a check position,
+      //getValidPieceMoves() cant be used because it only works for current positions of the board
+      //a 3 step solution is used in this function
+
+      //1st step: find all moves of piece that are captures
+      std::vector<PieceMove*> all_capture_moves;
+      for (PieceMove *mv : p->getMoves()){
         if(
-          (type == CAPTURE) ||
-          (type == PAWNCAPTURE) ||
-          (type == KNIGHTCAPTURE)
-        ){
-          if(getPieceFuturePos(k,pm) == getPieceFuturePos(p, move)){
-            return false;
-          }
-        }else{continue;}
+          (mv->getMoveType() == CAPTURE) ||
+          (mv->getMoveType() == KNIGHTCAPTURE) ||
+          (mv->getMoveType() == PAWNCAPTURE)
+        ){all_capture_moves.push_back(mv);}
+      }
+
+      //2nd step: check if capture moves would meet valid criteria
+      std::vector<PieceMove*> valid_capture_moves;
+      for (PieceMove *mv : all_capture_moves){
+        switch(mv->getMoveType()){
+          case KNIGHTCAPTURE:
+            if(handleOutOfBounds(p, mv)){
+              valid_capture_moves.push_back(mv);
+            }
+            break;
+
+          //CAPTURE and PAWNCAPTURE
+          default:
+            if((handleOutOfBounds(p,mv)) && (handlePieceInTheWay(p, mv))){
+              valid_capture_moves.push_back(mv);
+            }
+            break;
+        }
+      }
+
+      //3rd step: check if move would put king in a position to be checked
+      for (PieceMove *mv : valid_capture_moves){
+        if(getPieceFuturePos(p,mv) == getPieceFuturePos(k, pm)){
+          return false;
+        }
       }
     }
   }

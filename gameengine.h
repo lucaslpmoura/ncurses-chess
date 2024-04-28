@@ -14,6 +14,7 @@ enum PieceNames{
   BISHOP,
   QUEEN,
   KING,
+  INVALID_PIECE
 };
 
 class GameEngine{
@@ -36,12 +37,21 @@ class GameEngine{
     //checks if moving the king would put him in a check position
     bool handleCheckPosition(King *k, PieceMove *pm);
 
+
+    //see implementation for why this functions are necessary
+    bool handleMovingOutOfCheckPostion(Piece *p, PieceMove *pm);
+    void movePiece(Piece *p, PieceMove *move, Board *b);
+    bool isKingInCheck(King *k, Board *b);
+
     std::vector<PieceMove*> getValidPawnMoves(Pawn *p);
     std::vector<PieceMove*> getValidKnightMoves(Knight *n);
     std::vector<PieceMove*> getValidRookMoves(Rook *r);
     std::vector<PieceMove*> getValidBishopMoves(Bishop *b);
     std::vector<PieceMove*> getValidQueenMoves(Queen *q);
     std::vector<PieceMove*> getValidKingMoves(King *k);
+
+
+
     
   public:
     
@@ -52,6 +62,8 @@ class GameEngine{
     std::vector<PieceMove*> getValidPieceMoves(Piece *p);
     std::array<int,2> getPieceFuturePos(Piece *p, PieceMove *move);
     void movePiece(Piece *p, PieceMove *move);
+    bool isKingInCheck(King *k);
+    
 };
 
 #endif

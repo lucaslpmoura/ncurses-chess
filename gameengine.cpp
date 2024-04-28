@@ -9,6 +9,7 @@ PieceNames GameEngine::getPieceName(Piece *p){
   if(name == "Bishop"){return BISHOP;}
   if(name == "Queen") {return QUEEN;}
   if(name == "King") {return KING;}
+  else{return INVALID_PIECE;}
 }
 
 bool GameEngine::handleOutOfBounds(Piece *p, PieceMove *pm){
@@ -150,8 +151,7 @@ bool GameEngine::handlePieceInTheWay(Piece *p, PieceMove *pm){
 //that lands on the same square as the king 
 bool GameEngine::handleCheckPosition(King *k, PieceMove *pm){
   for(Piece *p : board->getPieces()){
-    //piece cant be a king: would lead to infinte loop
-    if((p->getColor() != k->getColor()) && (p->getName() != "King")){
+    if(p->getColor() != k->getColor()){
       //for checking the piece movements that would lead to a check position,
       //getValidPieceMoves() cant be used because it only works for current positions of the board
       //a 3 step solution is used in this function
@@ -196,6 +196,68 @@ bool GameEngine::handleCheckPosition(King *k, PieceMove *pm){
   return true;
 }
 
+bool GameEngine::isKingInCheck(King *k){
+  int i = 0;
+  char s;
+  bool col;
+  for (Piece *p : board->getPieces()){
+    i++;
+    s = p->getSymbol();
+    col = p->getColor();
+    if((p->getColor() != k->getColor()) && (p->getSymbol() != 'k')){
+      std::vector<PieceMove*> valid_moves = getValidPieceMoves(p);
+      for (PieceMove *mv : valid_moves){
+        if(
+          (getPieceFuturePos(p, mv) == k->getCurrentPos()) &&
+            (
+              (mv->getMoveType() == CAPTURE) ||
+              (mv->getMoveType() == PAWNCAPTURE) ||
+              (mv->getMoveType() == KNIGHTCAPTURE)
+            )
+          ){k->setCheckState(true); return true;}
+      }
+    }
+  }
+  k->setCheckState(false);
+  return false;
+}
+
+bool GameEngine::isKingInCheck(King *k, Board *b){
+  for (Piece *p : b->getPieces()){
+    if((p->getColor() != k->getColor()) && (getPieceName(p) != KING) && (p != nullptr)){
+      std::vector<PieceMove*> valid_moves = getValidPieceMoves(p);
+      for (PieceMove *mv : valid_moves){
+        if(
+          (getPieceFuturePos(p, mv) == k->getCurrentPos()) &&
+            (
+              (mv->getMoveType() == CAPTURE) ||
+              (mv->getMoveType() == PAWNCAPTURE) ||
+              (mv->getMoveType() == KNIGHTCAPTURE)
+            )
+          ){k->setCheckState(true); return true;}
+      }
+    }
+  }
+  k->setCheckState(false);
+  return false;
+}
+
+//this functions checks if a movement will put the king out of a check position
+//by moving the piece in a new auxiliary board and checking if the blocking of the check happened
+//pretty nasty hack, but it works
+bool GameEngine::handleMovingOutOfCheckPostion(Piece *p, PieceMove *pm){
+  Board *aux_board = new Board(board);
+  movePiece(p, pm, aux_board);
+  if(isKingInCheck(aux_board->getKing(p->getColor()), aux_board)){
+    delete aux_board;
+    return false;
+  }else{
+    delete aux_board;
+    return true;
+    
+  }
+}
+
 
 //specfic functions for handling each type of piece valid moves
 //done separate for organization propouses
@@ -209,7 +271,8 @@ std::vector<PieceMove*> GameEngine::getValidPawnMoves(Pawn *p){
       case PAWNMOVE:
         if(
             (handleOutOfBounds(p, pm)) &&
-            (handlePieceInFuturePos(p, pm))
+            (handlePieceInFuturePos(p, pm)) &&
+            (!(board->getKing(pawn_color)->isInCheck()) || (handleMovingOutOfCheckPostion(p,pm)))
         ){validMoves.push_back(pm);}
         break;
       case PAWNFIRSTMOVE:
@@ -217,13 +280,15 @@ std::vector<PieceMove*> GameEngine::getValidPawnMoves(Pawn *p){
             (handleOutOfBounds(p,pm)) &&
             (handlePieceInFuturePos(p,pm)) &&
             (handlePieceInTheWay(p,pm)) &&
-            (p->getCurrentPos() == p->getOriginalPos())
+            (p->getCurrentPos() == p->getOriginalPos()) &&
+            (!(board->getKing(pawn_color)->isInCheck()) || (handleMovingOutOfCheckPostion(p,pm)))
           ){validMoves.push_back(pm);}
         break;
       case PAWNCAPTURE:
         if(
             (handleOutOfBounds(p,pm)) && 
-            (!handleEnemyPieceInFuturePos(p,pm))
+            (!handleEnemyPieceInFuturePos(p,pm)) &&
+            (!(board->getKing(pawn_color)->isInCheck()) || (handleMovingOutOfCheckPostion(p,pm)))
           ){validMoves.push_back(pm);}
         break;
       //TODO
@@ -342,6 +407,9 @@ std::vector<PieceMove*> GameEngine::getValidQueenMoves(Queen *q){
 }
 
 std::vector<PieceMove*> GameEngine::getValidKingMoves(King *k){
+  if(isKingInCheck(k)){
+    return {};
+  }
   std::vector<PieceMove*> validMoves;
   bool king_color = k->getColor();
   for (PieceMove *pm : k->getMoves()){
@@ -377,18 +445,18 @@ std::array<int,2> GameEngine::getPieceFuturePos(Piece *p, PieceMove *move){
 
 std::vector<PieceMove*> GameEngine::getValidPieceMoves(Piece *p){
   if(p == nullptr) {return {};}
-  switch(getPieceName(p)){
-    case PAWN:
+  switch(p->getSymbol()){
+    case 'p':
       return getValidPawnMoves(dynamic_cast<Pawn*>(p));
-    case KNIGHT:
+    case 'n':
       return getValidKnightMoves(dynamic_cast<Knight*>(p));
-    case ROOK:
+    case 'r':
       return getValidRookMoves(dynamic_cast<Rook*>(p));
-    case BISHOP:
+    case 'b':
       return getValidBishopMoves(dynamic_cast<Bishop*>(p));
-    case QUEEN:
+    case 'q':
       return getValidQueenMoves(dynamic_cast<Queen*>(p));
-    case KING:
+    case 'k':
       return getValidKingMoves(dynamic_cast<King*>(p));
     default:
       return {};
@@ -405,6 +473,19 @@ void GameEngine::movePiece(Piece *p, PieceMove *move){
   }
   p->setCurrentPos(getPieceFuturePos(p, move));
   p->setSquare(board->getSquare(p->getCurrentPos()));
+
+}
+
+void GameEngine::movePiece(Piece *p, PieceMove *move, Board *b){
+  if (
+      (move->getMoveType() == PAWNCAPTURE) ||
+      (move->getMoveType() == CAPTURE) ||
+      (move->getMoveType() == KNIGHTCAPTURE)
+     ){
+    b->removePiece(b->getPiece(b->getSquare(getPieceFuturePos(p,move))));
+  }
+  p->setCurrentPos(getPieceFuturePos(p, move));
+  p->setSquare(b->getSquare(p->getCurrentPos()));
 
 }
 

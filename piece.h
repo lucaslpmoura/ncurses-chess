@@ -20,6 +20,7 @@ class Piece{
 	public:
 		Piece(bool desiredColor, std::array<int,2> pos);
     Piece(bool desiredColor, Square *desiredSquare);
+    Piece(Piece *other_piece);
 		virtual ~Piece();
 		std::string getName() {return name;};
 		char getSymbol() {return symbol;};
@@ -74,9 +75,15 @@ class Queen: public Piece{
 };
 
 class King: public Piece{
+  private:
+    //true - is in check, false - not in check
+    bool check_state;
   public:
     King(bool desiredColor, std::array<int,2> pos);
     King(bool desiredColor, Square *desiredSquare);
+    King(King *otherKing);
+    bool isInCheck() {return check_state;}
+    void setCheckState(bool new_check_state) {check_state = new_check_state;}
     void f() {std::cout << "I'm a King!" << std::endl;}
 };
 #endif

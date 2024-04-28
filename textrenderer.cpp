@@ -136,7 +136,7 @@ void TextRenderer::drawPieces(std::vector<Piece*> pieces){
 
 
 void TextRenderer::drawPieceMoves(Piece *piece, std::vector<PieceMove*> pieceMoves){
-  if(piece == nullptr) {return;}
+  if((piece == nullptr) || (pieceMoves.empty())) {return;}
   for (PieceMove *move : pieceMoves){
     if (!piece->getColor()){
       drawPieceMove(piece, move, color_pairs[0], color_pairs[1]);

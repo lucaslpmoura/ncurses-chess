@@ -9,6 +9,7 @@ class Square{
     bool color; //0 white 1 black
   public:
     Square(bool desiredColor, std::array<int,2> desiredPos) {sqPos = desiredPos; color = desiredColor;}
+    Square(Square *other_sq){sqPos = other_sq->sqPos; color = other_sq->color;}
     ~Square(){};
     std::array<int,2> getPos(){return sqPos;}
     bool getColor() {return color;}

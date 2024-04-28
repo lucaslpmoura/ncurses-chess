@@ -14,6 +14,13 @@ Piece::Piece(bool desiredColor, Square *desiredSquare){
   square = desiredSquare;
 }
 
+Piece::Piece(Piece *other_piece){
+  color = other_piece->color;
+  originalPos = other_piece->originalPos;
+  currentPos = other_piece->currentPos;
+  square = new Square(other_piece->getSquare());
+}
+
 Piece::~Piece(){
   //cleaning up moves pointers
   for (auto& mv : moves){
@@ -227,7 +234,23 @@ Queen::Queen(bool desiredColor, Square *desiredSquare) : Piece(desiredColor, des
 King::King(bool desiredColor, std::array<int,2> pos) : Piece(desiredColor, pos){
       name = "King";
       symbol = 'k';
-      moves = {new PieceMove(MOVE, {0, 2})};
+      moves.push_back(new PieceMove(MOVE, {1,1}));
+      moves.push_back(new PieceMove(MOVE, {-1,1}));
+      moves.push_back(new PieceMove(MOVE, {1,-1}));
+      moves.push_back(new PieceMove(MOVE, {-1,-1}));
+      moves.push_back(new PieceMove(CAPTURE, {1,1}));
+      moves.push_back(new PieceMove(CAPTURE, {-1,1}));
+      moves.push_back(new PieceMove(CAPTURE, {1,-1}));
+      moves.push_back(new PieceMove(CAPTURE, {-1,-1}));
+      moves.push_back(new PieceMove(MOVE, {0,1}));
+      moves.push_back(new PieceMove(MOVE, {1,0}));
+      moves.push_back(new PieceMove(MOVE, {0,-1}));
+      moves.push_back(new PieceMove(MOVE, {-1,0}));
+      moves.push_back(new PieceMove(CAPTURE, {0,1}));
+      moves.push_back(new PieceMove(CAPTURE, {1,0}));
+      moves.push_back(new PieceMove(CAPTURE, {0,-1}));
+      moves.push_back(new PieceMove(CAPTURE, {-1,0}));
+      check_state = false;
 };
 
 King::King(bool desiredColor, Square *desiredSquare) : Piece (desiredColor, desiredSquare){
@@ -249,5 +272,7 @@ King::King(bool desiredColor, Square *desiredSquare) : Piece (desiredColor, desi
       moves.push_back(new PieceMove(CAPTURE, {1,0}));
       moves.push_back(new PieceMove(CAPTURE, {0,-1}));
       moves.push_back(new PieceMove(CAPTURE, {-1,0}));
-      
+      check_state = false;
 }
+
+King::King(King *otherKing) : Piece(otherKing){};

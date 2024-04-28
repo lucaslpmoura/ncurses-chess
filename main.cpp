@@ -43,15 +43,19 @@ int main(){
 
   bool flag = true;
   int ch = 0;
-  std::vector<std::string> PiecesInBoard;
 
+  bool bC;
+  bool wC;
   while(flag){
+    bC = gameEngine.isKingInCheck(board->getKing(true));
+    wC = gameEngine.isKingInCheck(board->getKing(false));
     r.drawBoard(board->getSquares());
     r.drawPieces(board->getPieces());
     r.drawCursor(cursor);
     r.drawPieceMoves(cursor.getPiece(), gameEngine.getValidPieceMoves(cursor.getPiece()));
 
     ch = wgetch(win);
+
     switch(ch){
       case KEY_RIGHT:
         if(cursor.getPos()[1] < 7){

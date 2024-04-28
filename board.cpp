@@ -5,6 +5,13 @@ Board::Board(){
   initializePieces();
 }
 
+Board::Board(const Board *other_board){
+  allPieces = other_board->allPieces;
+  allSquares = other_board->allSquares;
+  whiteKing = new King(other_board->whiteKing);
+  blackKing = new King(other_board->blackKing);
+}
+
 Board::~Board(){
   cleanup();
 }
@@ -52,6 +59,11 @@ std::vector<Piece*> Board::getPieces(){
   return allPieces;
 }
 
+King* Board::getKing(bool color){
+  if(color){return blackKing;}
+  else{return whiteKing;}
+}
+
 
 void Board::initializePieces(){
   for (int i = 48; i < 56; i++){;
@@ -95,10 +107,10 @@ void Board::initializePieces(){
   allPieces.push_back(wq);
   allPieces.push_back(bq);
 
-  King *bk = new King(BLACK, allSquares[4]);
-  King *wk = new King(WHITE, allSquares[60]);
-  allPieces.push_back(wk);
-  allPieces.push_back(bk);
+  blackKing = new King(BLACK, allSquares[4]);
+  whiteKing = new King(WHITE, allSquares[60]);
+  allPieces.push_back(blackKing);
+  allPieces.push_back(whiteKing);
 }
 
 void Board::initializeSquares(){

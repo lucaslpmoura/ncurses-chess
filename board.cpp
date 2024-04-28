@@ -6,16 +6,33 @@ Board::Board(){
 }
 
 Board::Board(const Board *other_board){
-  allPieces = other_board->allPieces;
-  allSquares = other_board->allSquares;
-  whiteKing = new King(other_board->whiteKing);
-  blackKing = new King(other_board->blackKing);
+  allSquares.resize(other_board->allSquares.size());
+  for (int i = 0; i < other_board->allSquares.size(); i++){
+    allSquares[i] = other_board->allSquares[i]->clone();
+  }
+  allPieces.resize(other_board->allPieces.size());
+  for (int i = 0; i < other_board->allPieces.size(); i++){
+    allPieces[i] = other_board->allPieces[i]->clone();
+  }
+
+  //references to squares are lost in the copying process
+  //this creates new ones
+  for (Piece *p : allPieces){
+    p->setSquare(getSquare(p->getCurrentPos()));
+  }
+  whiteKing = dynamic_cast<King*> (other_board->getKing(false)->clone());
+  blackKing = dynamic_cast<King*> (other_board->getKing(true)->clone());
 }
 
 Board::~Board(){
   cleanup();
 }
 
+void Board::addPiece(Piece *p){
+  if (p != nullptr){
+    allPieces.push_back(p);
+  }
+}
 Piece* Board::getPiece(Square *sq){
   for(Piece *p : allPieces){
     if (p->getSquare() == sq){
@@ -59,7 +76,7 @@ std::vector<Piece*> Board::getPieces(){
   return allPieces;
 }
 
-King* Board::getKing(bool color){
+King* Board::getKing(bool color) const{
   if(color){return blackKing;}
   else{return whiteKing;}
 }

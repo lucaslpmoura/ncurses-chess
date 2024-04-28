@@ -32,8 +32,8 @@ class PieceMove{
   public:
     PieceMove(moveType desiredType, std::array<int,2> desiredDisplacement){type = desiredType; pieceDisplacement = desiredDisplacement;};
     ~PieceMove(){};
-    moveType getMoveType(){return type;};
-    std::array<int,2> getPieceDisplacement() {return pieceDisplacement;};
+    moveType getMoveType() const {return type;};
+    std::array<int,2> getPieceDisplacement() const {return pieceDisplacement;};
 };
 
 #endif

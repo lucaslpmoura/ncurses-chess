@@ -14,12 +14,6 @@ Piece::Piece(bool desiredColor, Square *desiredSquare){
   square = desiredSquare;
 }
 
-Piece::Piece(Piece *other_piece){
-  color = other_piece->color;
-  originalPos = other_piece->originalPos;
-  currentPos = other_piece->currentPos;
-  square = new Square(other_piece->getSquare());
-}
 
 Piece::~Piece(){
   //cleaning up moves pointers
@@ -83,6 +77,10 @@ Pawn::Pawn(bool desiredColor, Square *desiredSquare) : Piece(desiredColor, desir
       }
 }
 
+Piece* Pawn::clone() const{
+  return new Pawn(*this);
+}
+
 Knight::Knight(bool desiredColor, std::array<int,2> pos) : Piece(desiredColor, pos){
       name = "Knight";
       symbol = 'n';
@@ -125,6 +123,10 @@ Knight::Knight(bool desiredColor, Square *desiredSquare) : Piece(desiredColor, d
                new PieceMove(KNIGHTCAPTURE, {-2, -1})};
 }
 
+Piece* Knight::clone() const{
+  return new Knight(*this);
+}
+
 Rook::Rook(bool desiredColor, std::array<int,2> pos) : Piece(desiredColor, pos){
       name = "Rook";
       symbol = 'r';
@@ -153,6 +155,10 @@ Rook::Rook(bool desiredColor, Square *desiredSquare) : Piece(desiredColor, desir
         moves.push_back(new PieceMove(CAPTURE, {0,-i}));
         moves.push_back(new PieceMove(CAPTURE, {-i,0}));
       }
+}
+
+Piece* Rook::clone() const{
+  return new Rook(*this);
 }
 
 Bishop::Bishop(bool desiredColor, std::array<int,2> pos) : Piece(desiredColor, pos){
@@ -185,6 +191,10 @@ Bishop::Bishop(bool desiredColor, Square *desiredSquare) : Piece(desiredColor, d
       }
 }
 
+Piece* Bishop::clone() const{
+  return new Bishop(*this);
+}
+
 Queen::Queen(bool desiredColor, std::array<int,2> pos) : Piece(desiredColor, pos){
       name = "Queen";
       symbol = 'q';
@@ -206,7 +216,7 @@ Queen::Queen(bool desiredColor, std::array<int,2> pos) : Piece(desiredColor, pos
         moves.push_back(new PieceMove(CAPTURE, {0,-i}));
         moves.push_back(new PieceMove(CAPTURE, {-i,0}));
       }
-};
+}
 
 Queen::Queen(bool desiredColor, Square *desiredSquare) : Piece(desiredColor, desiredSquare){
       name = "Queen";
@@ -229,6 +239,10 @@ Queen::Queen(bool desiredColor, Square *desiredSquare) : Piece(desiredColor, des
         moves.push_back(new PieceMove(CAPTURE, {0,-i}));
         moves.push_back(new PieceMove(CAPTURE, {-i,0}));
       }
+}
+
+Piece* Queen::clone() const{
+  return new Queen(*this);
 }
 
 King::King(bool desiredColor, std::array<int,2> pos) : Piece(desiredColor, pos){
@@ -275,4 +289,7 @@ King::King(bool desiredColor, Square *desiredSquare) : Piece (desiredColor, desi
       check_state = false;
 }
 
-King::King(King *otherKing) : Piece(otherKing){};
+Piece* King::clone() const{
+  return new King(*this);
+}
+

@@ -10,6 +10,7 @@ class Square{
   public:
     Square(bool desiredColor, std::array<int,2> desiredPos) {sqPos = desiredPos; color = desiredColor;}
     Square(Square *other_sq){sqPos = other_sq->sqPos; color = other_sq->color;}
+    Square* clone() const{return new Square(*this);}
     ~Square(){};
     std::array<int,2> getPos(){return sqPos;}
     bool getColor() {return color;}

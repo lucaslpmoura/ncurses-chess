@@ -40,8 +40,8 @@ class GameEngine{
 
     //see implementation for why this functions are necessary
     bool handleMovingOutOfCheckPostion(Piece *p, PieceMove *pm);
-    void movePiece(Piece *p, PieceMove *move, Board *b);
-    bool isKingInCheck(King *k, Board *b);
+    Piece* simulateMove(Piece *p, PieceMove *move);
+    void undoMove(Piece *p, PieceMove *move, Piece *removed_piece);
 
     std::vector<PieceMove*> getValidPawnMoves(Pawn *p);
     std::vector<PieceMove*> getValidKnightMoves(Knight *n);
@@ -62,6 +62,7 @@ class GameEngine{
     std::vector<PieceMove*> getValidPieceMoves(Piece *p);
     std::array<int,2> getPieceFuturePos(Piece *p, PieceMove *move);
     void movePiece(Piece *p, PieceMove *move);
+
     bool isKingInCheck(King *k);
     
 };

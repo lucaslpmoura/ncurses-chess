@@ -19,7 +19,9 @@ class Board{
   public:
     Board();
     Board(const Board *otherBoard);
+    Board* clone() const {return new Board(*this);}
     ~Board();
+    void addPiece(Piece *p);
     Piece* getPiece(Square *sq);
     void removePiece(Piece *p);
     Square* getSquare(Piece *p);
@@ -27,7 +29,7 @@ class Board{
     Square* getSquare(int index);
 
     std::vector<Piece*> getPieces();
-    King* getKing(bool color);
+    King* getKing(bool color) const;
     std::vector<Square*> getSquares(){return allSquares;}
 };
 

@@ -47,12 +47,13 @@ int main(){
   bool bC;
   bool wC;
   while(flag){
-    bC = gameEngine.isKingInCheck(board->getKing(true));
-    wC = gameEngine.isKingInCheck(board->getKing(false));
+    gameEngine.isKingInCheck(board->getKing(true));
+    gameEngine.isKingInCheck(board->getKing(false));
     r.drawBoard(board->getSquares());
     r.drawPieces(board->getPieces());
     r.drawCursor(cursor);
     r.drawPieceMoves(cursor.getPiece(), gameEngine.getValidPieceMoves(cursor.getPiece()));
+   // if((gameEngine.getValidPieceMoves(cursor.getPiece()).size() == 0) && (cursor.getPiece() != nullptr) && (cursor.getPiece()->getSymbol() != 'p')) {std::cout << "Tome!" <<std::endl;}
 
     ch = wgetch(win);
 
@@ -77,6 +78,7 @@ int main(){
           cursor.moveCursorY(1);
         }
         break;
+
       //RETURN key
       case 10: {
         //toggleBlinkingCursor needs to be called if:
@@ -96,13 +98,14 @@ int main(){
           if(p == cursor.getPiece()) {
             cursor.setPiece(nullptr);
             r.toggleBlinkingCursor();
-          }
-          for (PieceMove *move : gameEngine.getValidPieceMoves(cursor.getPiece())){
-            if (cursor.getPos() == gameEngine.getPieceFuturePos(cursor.getPiece(), move)){
-              gameEngine.movePiece(cursor.getPiece(), move);
-              cursor.setPiece(nullptr);
-              r.toggleBlinkingCursor();
+          }else{
+            for (PieceMove *move : gameEngine.getValidPieceMoves(cursor.getPiece())){
+              if (cursor.getPos() == gameEngine.getPieceFuturePos(cursor.getPiece(), move)){
+                gameEngine.movePiece(cursor.getPiece(), move);
+                cursor.setPiece(nullptr);
+                r.toggleBlinkingCursor();
               break;
+              }
             }
           }
         }

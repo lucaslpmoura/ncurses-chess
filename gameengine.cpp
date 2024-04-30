@@ -273,7 +273,7 @@ void GameEngine::undoMove(Piece *p, PieceMove *pm, Piece *removed_piece){
 }
 //this functions checks if a movement will put the king out of a check position
 //by simulating a move by the piece, and then undoing it
-//if a piece is "captured", undoMove() returns it to the board;
+//if a piece is "captured", undoMove() returns it to the board
 //pretty nasty hack, but it works
 bool GameEngine::handleMovingOutOfCheckPostion(Piece *p, PieceMove *pm){
   bool valid = false;
@@ -284,6 +284,10 @@ bool GameEngine::handleMovingOutOfCheckPostion(Piece *p, PieceMove *pm){
     valid = true;
   }
   undoMove(p, pm, possible_piece);
+
+  //we need to set king as being in checked again
+  isKingInCheck(board->getKing(p->getColor()));
+
   return valid;
   
 }
@@ -367,14 +371,16 @@ std::vector<PieceMove*> GameEngine::getValidRookMoves(Rook *r){
         if(
             (handleOutOfBounds(r, pm)) &&
             (handlePieceInFuturePos(r, pm)) &&
-            (handlePieceInTheWay(r, pm))
+            (handlePieceInTheWay(r, pm)) &&
+            (!(board->getKing(rook_color)->isInCheck()) || (handleMovingOutOfCheckPostion(r,pm)))
           ){validMoves.push_back(pm);}
         break;
       case CAPTURE:
         if(
             (handleOutOfBounds(r, pm)) &&
             (handlePieceInTheWay(r,pm)) &&
-            (!handleEnemyPieceInFuturePos(r, pm))
+            (!handleEnemyPieceInFuturePos(r, pm)) &&
+            (!(board->getKing(rook_color)->isInCheck()) || (handleMovingOutOfCheckPostion(r,pm)))
           ){validMoves.push_back(pm);}
         break;
       default:
@@ -395,14 +401,16 @@ std::vector<PieceMove*> GameEngine::getValidBishopMoves(Bishop *b){
         if(
             (handleOutOfBounds(b, pm)) &&
             (handlePieceInFuturePos(b, pm)) &&
-            (handlePieceInTheWay(b, pm))
+            (handlePieceInTheWay(b, pm)) &&
+            (!(board->getKing(bishop_color)->isInCheck()) || (handleMovingOutOfCheckPostion(b,pm)))
           ){validMoves.push_back(pm);}
         break;
       case CAPTURE:
         if(
             (handleOutOfBounds(b, pm)) &&
             (handlePieceInTheWay(b,pm)) &&
-            (!handleEnemyPieceInFuturePos(b, pm))
+            (!handleEnemyPieceInFuturePos(b, pm)) &&
+            (!(board->getKing(bishop_color)->isInCheck()) || (handleMovingOutOfCheckPostion(b,pm)))
           ){validMoves.push_back(pm);}
         break;
       default:
@@ -421,14 +429,16 @@ std::vector<PieceMove*> GameEngine::getValidQueenMoves(Queen *q){
         if(
             (handleOutOfBounds(q, pm)) &&
             (handlePieceInFuturePos(q, pm)) &&
-            (handlePieceInTheWay(q, pm))
+            (handlePieceInTheWay(q, pm)) &&
+            (!(board->getKing(queen_color)->isInCheck()) || (handleMovingOutOfCheckPostion(q,pm)))
           ){validMoves.push_back(pm);}
         break;
       case CAPTURE:
         if(
             (handleOutOfBounds(q, pm)) &&
             (handlePieceInTheWay(q,pm)) &&
-            (!handleEnemyPieceInFuturePos(q, pm))
+            (!handleEnemyPieceInFuturePos(q, pm)) &&
+            (!(board->getKing(queen_color)->isInCheck()) || (handleMovingOutOfCheckPostion(q,pm)))
           ){validMoves.push_back(pm);}
         break;
       default:

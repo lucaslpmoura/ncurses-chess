@@ -292,6 +292,43 @@ bool GameEngine::handleMovingOutOfCheckPostion(Piece *p, PieceMove *pm){
   
 }
 
+/*checks if there is an piece on the board that:
+1- is from the oposite color
+2 - piece has already moved
+3- lastMove is PAWNFIRSTMOVE
+4- checks if the piece is next to the pawn on the x axis
+**/
+bool GameEngine::handleEnPassant(Pawn *p, PieceMove *pm){
+  for(Piece *piece : board->getPieces()){
+    if(piece == nullptr){
+      continue;
+    }
+    if(
+      (piece->getColor() != p->getColor()) && 
+      (piece->getLastMove() != nullptr) &&
+      (piece->getLastMove()->getMoveType() == PAWNFIRSTMOVE)
+    ){
+      switch(pm->getPieceDisplacement()[1]){
+        case 1:
+          if(
+            (p->getCurrentPos()[1] - piece->getCurrentPos()[1] == -1) &&
+            (p->getCurrentPos()[0] == piece->getCurrentPos()[0])
+            ){return true;}
+          break;
+        case -1:
+          if(
+            (p->getCurrentPos()[1] - piece->getCurrentPos()[1] == 1) &&
+            (p->getCurrentPos()[0] == piece->getCurrentPos()[0])
+            ){return true;}
+          break;
+        default:
+          return false;
+          break;
+      }
+    }
+  }
+  return false;
+}
 
 //specfic functions for handling each type of piece valid moves
 //done separate for organization propouses
@@ -306,7 +343,7 @@ std::vector<PieceMove*> GameEngine::getValidPawnMoves(Pawn *p){
         if(
             (handleOutOfBounds(p, pm)) &&
             (handlePieceInFuturePos(p, pm)) &&
-            (!(board->getKing(pawn_color)->isInCheck()) || (handleMovingOutOfCheckPostion(p,pm)))
+            (handleMovingOutOfCheckPostion(p,pm))
         ){validMoves.push_back(pm);}
         break;
       case PAWNFIRSTMOVE:
@@ -315,18 +352,24 @@ std::vector<PieceMove*> GameEngine::getValidPawnMoves(Pawn *p){
             (handlePieceInFuturePos(p,pm)) &&
             (handlePieceInTheWay(p,pm)) &&
             (p->getCurrentPos() == p->getOriginalPos()) &&
-            (!(board->getKing(pawn_color)->isInCheck()) || (handleMovingOutOfCheckPostion(p,pm)))
+            (handleMovingOutOfCheckPostion(p,pm))
           ){validMoves.push_back(pm);}
         break;
       case PAWNCAPTURE:
         if(
             (handleOutOfBounds(p,pm)) && 
             (!handleEnemyPieceInFuturePos(p,pm)) &&
-            (!(board->getKing(pawn_color)->isInCheck()) || (handleMovingOutOfCheckPostion(p,pm)))
+            (handleMovingOutOfCheckPostion(p,pm))
           ){validMoves.push_back(pm);}
         break;
       //TODO
       case ENPASSANT:
+      if(
+        (handleOutOfBounds(p,pm)) &&
+        (handlePieceInFuturePos(p,pm)) &&
+        (handleEnPassant(p,pm)) &&
+        (handleMovingOutOfCheckPostion(p,pm))
+      ){validMoves.push_back(pm);}
         break;
       default:
         return {};
@@ -344,14 +387,14 @@ std::vector<PieceMove*> GameEngine::getValidKnightMoves(Knight *n){
         if(
             (handleOutOfBounds(n, pm)) &&
             (handlePieceInFuturePos(n, pm))&&
-            (!(board->getKing(knight_color)->isInCheck()) || (handleMovingOutOfCheckPostion(n,pm)))
+            (handleMovingOutOfCheckPostion(n,pm))
           ){validMoves.push_back(pm);}
         break;
       case KNIGHTCAPTURE:
         if(
             (handleOutOfBounds(n, pm)) &&
             (!handleEnemyPieceInFuturePos(n, pm))&&
-            (!(board->getKing(knight_color)->isInCheck()) || (handleMovingOutOfCheckPostion(n,pm)))
+            (handleMovingOutOfCheckPostion(n,pm))
           ){validMoves.push_back(pm);}
         break;
       default:
@@ -372,7 +415,7 @@ std::vector<PieceMove*> GameEngine::getValidRookMoves(Rook *r){
             (handleOutOfBounds(r, pm)) &&
             (handlePieceInFuturePos(r, pm)) &&
             (handlePieceInTheWay(r, pm)) &&
-            (!(board->getKing(rook_color)->isInCheck()) || (handleMovingOutOfCheckPostion(r,pm)))
+            (handleMovingOutOfCheckPostion(r,pm))
           ){validMoves.push_back(pm);}
         break;
       case CAPTURE:
@@ -380,7 +423,7 @@ std::vector<PieceMove*> GameEngine::getValidRookMoves(Rook *r){
             (handleOutOfBounds(r, pm)) &&
             (handlePieceInTheWay(r,pm)) &&
             (!handleEnemyPieceInFuturePos(r, pm)) &&
-            (!(board->getKing(rook_color)->isInCheck()) || (handleMovingOutOfCheckPostion(r,pm)))
+            (handleMovingOutOfCheckPostion(r,pm))
           ){validMoves.push_back(pm);}
         break;
       default:
@@ -402,7 +445,7 @@ std::vector<PieceMove*> GameEngine::getValidBishopMoves(Bishop *b){
             (handleOutOfBounds(b, pm)) &&
             (handlePieceInFuturePos(b, pm)) &&
             (handlePieceInTheWay(b, pm)) &&
-            (!(board->getKing(bishop_color)->isInCheck()) || (handleMovingOutOfCheckPostion(b,pm)))
+            (handleMovingOutOfCheckPostion(b,pm))
           ){validMoves.push_back(pm);}
         break;
       case CAPTURE:
@@ -410,7 +453,7 @@ std::vector<PieceMove*> GameEngine::getValidBishopMoves(Bishop *b){
             (handleOutOfBounds(b, pm)) &&
             (handlePieceInTheWay(b,pm)) &&
             (!handleEnemyPieceInFuturePos(b, pm)) &&
-            (!(board->getKing(bishop_color)->isInCheck()) || (handleMovingOutOfCheckPostion(b,pm)))
+            (handleMovingOutOfCheckPostion(b,pm))
           ){validMoves.push_back(pm);}
         break;
       default:
@@ -430,7 +473,7 @@ std::vector<PieceMove*> GameEngine::getValidQueenMoves(Queen *q){
             (handleOutOfBounds(q, pm)) &&
             (handlePieceInFuturePos(q, pm)) &&
             (handlePieceInTheWay(q, pm)) &&
-            (!(board->getKing(queen_color)->isInCheck()) || (handleMovingOutOfCheckPostion(q,pm)))
+            (handleMovingOutOfCheckPostion(q,pm))
           ){validMoves.push_back(pm);}
         break;
       case CAPTURE:
@@ -438,7 +481,7 @@ std::vector<PieceMove*> GameEngine::getValidQueenMoves(Queen *q){
             (handleOutOfBounds(q, pm)) &&
             (handlePieceInTheWay(q,pm)) &&
             (!handleEnemyPieceInFuturePos(q, pm)) &&
-            (!(board->getKing(queen_color)->isInCheck()) || (handleMovingOutOfCheckPostion(q,pm)))
+            (handleMovingOutOfCheckPostion(q,pm))
           ){validMoves.push_back(pm);}
         break;
       default:
@@ -510,9 +553,20 @@ void GameEngine::movePiece(Piece *p, PieceMove *move){
       (move->getMoveType() == KNIGHTCAPTURE)
      ){
     board->removePiece(board->getPiece(board->getSquare(getPieceFuturePos(p,move))));
+    
   }
   p->setCurrentPos(getPieceFuturePos(p, move));
   p->setSquare(board->getSquare(p->getCurrentPos()));
+  p->setLastMove(move);
+
+  /* if the move was an en passant
+  needs to remove the piece right behind the pawn, after it moved. 
+  */
+  if(move->getMoveType() == ENPASSANT){
+      board->removePiece(board->getPiece(board->getSquare(
+        {p->getCurrentPos()[0] - move->getPieceDisplacement()[0], p->getCurrentPos()[1]}
+      )));
+    }
 }
 
 

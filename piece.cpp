@@ -5,6 +5,7 @@ Piece::Piece(bool desiredColor, std::array<int, 2> pos){;
   originalPos = pos;
   currentPos = originalPos;
   square = nullptr;
+  lastMove = nullptr;
 }
 
 Piece::Piece(bool desiredColor, Square *desiredSquare){
@@ -12,11 +13,15 @@ Piece::Piece(bool desiredColor, Square *desiredSquare){
   originalPos = desiredSquare->getPos();
   currentPos = originalPos;
   square = desiredSquare;
+  lastMove = nullptr;
 }
 
 
 Piece::~Piece(){
   //cleaning up moves pointers
+  if(lastMove != nullptr){
+    delete(lastMove);
+  }
   for (auto& mv : moves){
     delete(mv);
   }
@@ -67,13 +72,17 @@ Pawn::Pawn(bool desiredColor, Square *desiredSquare) : Piece(desiredColor, desir
         moves = {new PieceMove(PAWNMOVE, {1,0}),
                  new PieceMove(PAWNFIRSTMOVE, {2,0}),
                  new PieceMove(PAWNCAPTURE, {1, -1}),
-                 new PieceMove(PAWNCAPTURE, {1, 1})};
+                 new PieceMove(PAWNCAPTURE, {1, 1}),
+                 new PieceMove(ENPASSANT, {1, 1}),
+                 new PieceMove(ENPASSANT, {1, -1})};
 
       }else{
         moves = {new PieceMove(PAWNMOVE, {-1,0}),
                  new PieceMove(PAWNFIRSTMOVE, {-2,0}),
                  new PieceMove(PAWNCAPTURE, {-1,-1}),
-                 new PieceMove(PAWNCAPTURE, {-1, 1})};
+                 new PieceMove(PAWNCAPTURE, {-1, 1}),
+                 new PieceMove(ENPASSANT, {-1, 1}),
+                 new PieceMove(ENPASSANT, {-1, -1})};
       }
 }
 

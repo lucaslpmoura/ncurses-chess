@@ -18,6 +18,7 @@ class Piece{
 		std::array<int, 2> currentPos;
     Square *square;
     std::vector<PieceMove*> moves; // all moves a piece can make, valid moves are handled by the game engine
+    PieceMove *lastMove;
 	public:
 		Piece(bool desiredColor, std::array<int,2> pos);
     Piece(bool desiredColor, Square *desiredSquare);
@@ -32,6 +33,8 @@ class Piece{
     void setSquare(Square *sq) {square = sq;}
     Square* getSquare() {return square;}
     std::vector<PieceMove*> getMoves() {return moves;};
+    void setLastMove(PieceMove *move){lastMove = move;}
+    PieceMove* getLastMove(){return lastMove;}
 		virtual void f() = 0;
     virtual Piece *clone() const = 0;
 

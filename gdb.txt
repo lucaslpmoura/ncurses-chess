@@ -1,0 +1,212 @@
+Breakpoint 1 at 0x76b4: file /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h, line 28.
+std::array<int, 2> Piece::getCurrentPos();
+Starting program: /mnt/e/Lucas - Pessoal/projs/ncurses-chess/main 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557d2c0) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557d2c0) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557d3e0) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557d3e0) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557d5a0) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557d5a0) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557d650) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557d650) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557d700) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557d700) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557d7b0) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557d7b0) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557d7b0) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557d700) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557d650) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557d5a0) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557d3e0) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557d2c0) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557e5c0) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557e6e0) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557e800) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557e8d0) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557e9a0) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557ea70) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557eb40) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557ec10) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557ece0) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557edb0) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557f1b0) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557f370) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557ee80) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557eff0) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557f690) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557f740) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557f530) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557f5e0) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557f950) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557fa00) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557f7f0) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557f8a0) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557fb60) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557fab0) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557fcc0) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557fc10) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557d7b0) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557d700) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557d650) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557d5a0) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557d3e0) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Continuing.
+
+Breakpoint 1, Piece::getCurrentPos (this=0x55555557d2c0) at /mnt/e/Lucas - Pessoal/projs/ncurses-chess/piece.h:28
+28			std::array<int, 2> getCurrentPos() {return currentPos;};
+Deleted breakpoint 1 
+Starting program: /mnt/e/Lucas - Pessoal/projs/ncurses-chess/main 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGINT, Interrupt.
+0x00007ffff7bfb7e2 in __GI___libc_read (fd=0, buf=0x7fffffffdedf, nbytes=1) at ../sysdeps/unix/sysv/linux/read.c:26
+26	../sysdeps/unix/sysv/linux/read.c: No such file or directory.

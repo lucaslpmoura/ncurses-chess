@@ -33,6 +33,7 @@ class GameEngine{
     bool handleEnemyPieceInFuturePos(Piece *p, std::array<int,2> pieceFuturePos);
     bool handleEnemyPieceInFuturePos(Piece *p, PieceMove *pm);
     bool handlePieceInTheWay(Piece *p, PieceMove *pm);
+    bool handleEnPassant(Pawn *p, PieceMove *pm);
 
     //checks if moving the king would put him in a check position
     bool handleCheckPosition(King *k, PieceMove *pm);

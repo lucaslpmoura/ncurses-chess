@@ -518,7 +518,7 @@ std::vector<PieceMove*> GameEngine::getValidKingMoves(King *k){
       /* CASTLING RULES:
       1- king must not have moved - done
       2- rook must not have moved - done
-      3- all squares beetween rook and king must be empty - done
+      3- all squares beetween rook and king must be empty - done for SMALLCASTLE
       4- king cant be in check - done
       5- no squares in the way can be attacked by any enemy piece (valid for the king) - fucking hell
       */
@@ -527,12 +527,13 @@ std::vector<PieceMove*> GameEngine::getValidKingMoves(King *k){
             (handlePieceInFuturePos(k,pm)) &&
             (handlePieceInTheWay(k,pm))&&
             (handleCheckPosition(k, pm)) &&
-            (!(k->isInCheck()) &&
-            (handleMovingOutOfCheckPostion(k,pm))) &&
+            (!(k->isInCheck())) &&
+            (handleMovingOutOfCheckPostion(k,pm)) &&
+            (handleMovingOutOfCheckPostion(k, new PieceMove(MOVE, {k->getOriginalPos()[0], 1}))) &&
             (k->getCurrentPos() == k->getOriginalPos()) &&
             (k->getLastMove() == nullptr) &&
-            (board->getPiece(board->getSquare({7,7})) != nullptr) &&
-            (board->getPiece(board->getSquare({7,7}))->getLastMove() == nullptr)
+            (board->getPiece(board->getSquare({k->getOriginalPos()[0],7})) != nullptr) &&
+            (board->getPiece(board->getSquare({k->getOriginalPos()[0],7}))->getLastMove() == nullptr)
           ){validMoves.push_back(pm);}
         break;
       case BIGCASTLE:
@@ -540,10 +541,13 @@ std::vector<PieceMove*> GameEngine::getValidKingMoves(King *k){
               (handlePieceInFuturePos(k,pm)) &&
               (handlePieceInTheWay(k,pm))&&
               (handleCheckPosition(k, pm)) &&
-              (!(k->isInCheck()) || (handleMovingOutOfCheckPostion(k,pm))) &&
+              (!(k->isInCheck()) &&
+              (handleMovingOutOfCheckPostion(k,pm))) &&
+              (handleMovingOutOfCheckPostion(k, new PieceMove(MOVE, {k->getOriginalPos()[0],-1}))) &&
               (k->getCurrentPos() == k->getOriginalPos()) &&
-              (k->getLastMove() == nullptr)
-              
+              (k->getLastMove() == nullptr) &&
+              (board->getPiece(board->getSquare({k->getOriginalPos()[0],0})) != nullptr) &&
+              (board->getPiece(board->getSquare({k->getOriginalPos()[0],0}))->getLastMove() == nullptr)
           ){validMoves.push_back(pm);}
         break;
       default:
@@ -589,7 +593,6 @@ void GameEngine::movePiece(Piece *p, PieceMove *move){
   }
   p->setCurrentPos(getPieceFuturePos(p, move));
   p->setSquare(board->getSquare(p->getCurrentPos()));
-  p->setLastMove(move);
 
   /* if the move was an en passant
   needs to remove the piece right behind the pawn, after it moved. 
@@ -599,6 +602,8 @@ void GameEngine::movePiece(Piece *p, PieceMove *move){
         {p->getCurrentPos()[0] - move->getPieceDisplacement()[0], p->getCurrentPos()[1]}
       )));
     }
+
+  p->setLastMove(move);
 }
 
 

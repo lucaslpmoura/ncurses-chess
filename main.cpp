@@ -47,7 +47,7 @@ int main(){
   bool bC;
   bool wC;
   while(flag){
-    gameEngine.isKingInCheck(board->getKing(true));
+    if(gameEngine.isKingInCheck(board->getKing(true))) {std::cout << "A" << std::endl;}
     gameEngine.isKingInCheck(board->getKing(false));
     r.drawBoard(board->getSquares());
     r.drawPieces(board->getPieces());

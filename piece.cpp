@@ -273,6 +273,8 @@ King::King(bool desiredColor, std::array<int,2> pos) : Piece(desiredColor, pos){
       moves.push_back(new PieceMove(CAPTURE, {1,0}));
       moves.push_back(new PieceMove(CAPTURE, {0,-1}));
       moves.push_back(new PieceMove(CAPTURE, {-1,0}));
+      moves.push_back(new PieceMove(SMALLCASTLE, {0, 2}));
+      moves.push_back(new PieceMove(BIGCASTLE, {0, -2}));
       check_state = false;
 };
 
@@ -295,6 +297,8 @@ King::King(bool desiredColor, Square *desiredSquare) : Piece (desiredColor, desi
       moves.push_back(new PieceMove(CAPTURE, {1,0}));
       moves.push_back(new PieceMove(CAPTURE, {0,-1}));
       moves.push_back(new PieceMove(CAPTURE, {-1,0}));
+      moves.push_back(new PieceMove(SMALLCASTLE, {0, 2}));
+      moves.push_back(new PieceMove(BIGCASTLE, {0, -2}));
       check_state = false;
 }
 

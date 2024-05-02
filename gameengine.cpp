@@ -514,6 +514,38 @@ std::vector<PieceMove*> GameEngine::getValidKingMoves(King *k){
             (!(k->isInCheck()) || (handleMovingOutOfCheckPostion(k,pm)))
           ){validMoves.push_back(pm);}
         break;
+
+      /* CASTLING RULES:
+      1- king must not have moved - done
+      2- rook must not have moved - done
+      3- all squares beetween rook and king must be empty - done
+      4- king cant be in check - done
+      5- no squares in the way can be attacked by any enemy piece (valid for the king) - fucking hell
+      */
+      case SMALLCASTLE:
+        if(
+            (handlePieceInFuturePos(k,pm)) &&
+            (handlePieceInTheWay(k,pm))&&
+            (handleCheckPosition(k, pm)) &&
+            (!(k->isInCheck()) &&
+            (handleMovingOutOfCheckPostion(k,pm))) &&
+            (k->getCurrentPos() == k->getOriginalPos()) &&
+            (k->getLastMove() == nullptr) &&
+            (board->getPiece(board->getSquare({7,7})) != nullptr) &&
+            (board->getPiece(board->getSquare({7,7}))->getLastMove() == nullptr)
+          ){validMoves.push_back(pm);}
+        break;
+      case BIGCASTLE:
+        if(
+              (handlePieceInFuturePos(k,pm)) &&
+              (handlePieceInTheWay(k,pm))&&
+              (handleCheckPosition(k, pm)) &&
+              (!(k->isInCheck()) || (handleMovingOutOfCheckPostion(k,pm))) &&
+              (k->getCurrentPos() == k->getOriginalPos()) &&
+              (k->getLastMove() == nullptr)
+              
+          ){validMoves.push_back(pm);}
+        break;
       default:
         return {};
     }
